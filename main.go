@@ -43,6 +43,7 @@ func main() {
 	fmt.Println(fmt.Sprintf("Float Avg :  %v Int Avg : %v", common.Avg(floatArray), common.Avg(array)))
 }
 
+// IsEvenNumber ...
 func IsEvenNumber(val int) bool {
 	if val%2 == 0 {
 		return true
