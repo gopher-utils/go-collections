@@ -26,6 +26,9 @@ func main() {
 	fmt.Println(fmt.Sprintf("Distinct array list %v", array.Distinct().ToArray()))
 	fmt.Println(fmt.Sprintf("Order by asc list %v", common.OrderBy(array.Distinct()).ToArray()))
 	fmt.Println(fmt.Sprintf("Order by Desc list %v", common.OrderByDesc(array.Distinct()).ToArray()))
+	for i, value := range array.GroupBy() {
+		fmt.Println(fmt.Sprintf("Group by key : %v value : %v", i, value.ToArray()))
+	}
 	array.RemoveDuplicates()
 	fmt.Println(fmt.Sprintf("Removed duplicates list %v", array.ToArray()))
 	fmt.Println(fmt.Sprintf("Int array Sum : %v", common.Sum(array)))

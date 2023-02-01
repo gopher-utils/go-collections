@@ -121,6 +121,27 @@ func (la *LinqArray[T]) Distinct() *LinqArray[T] {
 	return &array
 }
 
+func (la *LinqArray[T]) GroupBy() map[T]*LinqArray[T] {
+	filterMap := make(map[T][]T)
+	pos := 0
+	for _, value := range la.ToArray() {
+		filterMap[value] = append(filterMap[value], value)
+	}
+
+	resultMap := make(map[T]*LinqArray[T])
+	for i, value := range filterMap {
+		var array LinqArray[T]
+		pos = len(value)
+		array.Init(pos)
+		for i := 0; i < pos; i++ {
+			array.AddItem(value[i])
+		}
+		resultMap[i] = &array
+	}
+
+	return resultMap
+}
+
 func (la *LinqArray[T]) defaultValue() T {
 	var result T
 	return result
