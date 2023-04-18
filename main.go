@@ -2,54 +2,61 @@ package main
 
 import (
 	"fmt"
-	"linq/common"
-	vta "linq/valuetypearray"
+	"linq/collections"
 )
 
 func main() {
-	array := &vta.LinqArray[int]{}
-	array.Init(15)
-	array.AddItem(1)
-	array.AddRange(34, 21, 3, 4, 55)
-	array.AddRange(2, 3, 4)
-	array.AddRange(6, 7, 8, 99)
-	fmt.Println(fmt.Sprintf("Array List %v", array.ToArray()))
-	fmt.Println(fmt.Sprintf("Value 1 contains %v", array.Contains(1)))
-	fmt.Println(fmt.Sprintf("Value 8 contains %v", array.Contains(8)))
-	max := common.Max(array)
+	list := collections.NewEmptyList[int](15)
+	list.Add(1)
+	list.Extend(collections.NewListFromArray([]int{21, 3, 4, 55}))
+	list.Extend(collections.NewListFromArray([]int{2, 3, 4}))
+	list.Extend(collections.NewListFromArray([]int{6, 7, 8, 99}))
+	fmt.Println(fmt.Sprintf("Array List %v", list.ToArray()))
+	fmt.Println(fmt.Sprintf("List %v", list))
+	fmt.Println(fmt.Sprintf("Value 1 is present? : %v", list.Contains(1)))
+	fmt.Println(fmt.Sprintf("Value 10 is present? : %v", list.Contains(10)))
+	max := collections.Max[int](list)
 	fmt.Println(fmt.Sprintf("Int Array Max %v", max))
-	fmt.Println(fmt.Sprintf("Array size Before Remove %v", array.Size()))
-	_ = array.RemoveITem(max)
-	fmt.Println(fmt.Sprintf("Array List After Remove %v", array.ToArray()))
-	fmt.Println(fmt.Sprintf("Array size After Remove %v", array.Size()))
-	fmt.Println(fmt.Sprintf("Even number array list %v", array.Where(IsEvenNumber).ToArray()))
-	fmt.Println(fmt.Sprintf("Distinct array list %v", array.Distinct().ToArray()))
-	fmt.Println(fmt.Sprintf("Order by asc list %v", common.OrderBy(array.Distinct()).ToArray()))
-	fmt.Println(fmt.Sprintf("Order by Desc list %v", common.OrderByDesc(array.Distinct()).ToArray()))
-	for i, value := range array.GroupBy() {
-		fmt.Println(fmt.Sprintf("Group by key : %v value : %v", i, value.ToArray()))
-	}
-	array.RemoveDuplicates()
-	fmt.Println(fmt.Sprintf("Removed duplicates list %v", array.ToArray()))
-	fmt.Println(fmt.Sprintf("Int array Sum : %v", common.Sum(array)))
-	floatArray := &vta.LinqArray[float32]{}
-	floatArray.Init(10)
-	floatArray.AddRange(2.4, 3.3, 4.2, 5.8)
-	fmt.Println(fmt.Sprintf("Float Array List %v", floatArray.ToArray()))
-	fmt.Println(fmt.Sprintf("Float Array Max %v", common.Max(floatArray)))
-	fmt.Println(fmt.Sprintf("Float Array Min %v", common.Min(floatArray)))
-	stringArray := &vta.LinqArray[string]{}
-	stringArray.Init(10)
-	stringArray.AddRange("2", "z", "er", "ert")
-	fmt.Println(fmt.Sprintf("Float Array List %v", stringArray.ToArray()))
-	fmt.Println(fmt.Sprintf("Float Sum :  %v Int Sum : %v", common.Sum(floatArray), common.Sum(array)))
-	fmt.Println(fmt.Sprintf("Float Avg :  %v Int Avg : %v", common.Avg(floatArray), common.Avg(array)))
+	fmt.Println(fmt.Sprintf("List size Before Remove %v", list.Size()))
+	_ = list.RemoveFirst(max)
+	fmt.Println(fmt.Sprintf("List After Remove %v", list))
+	fmt.Println(fmt.Sprintf("List size After Remove %v", list.Size()))
+	fmt.Println(fmt.Sprintf("Even numbers in list %v", list.Where(func(i int) bool {
+		return i%2 == 0
+	})))
+	fmt.Println(fmt.Sprintf("Distinct list %v", list.Distinct()))
+	list.RemoveDuplicates()
+	fmt.Println(fmt.Sprintf("Removed duplicates list %v", list))
+	fmt.Println(fmt.Sprintf("List Sum : %v", collections.Sum[int](list)))
+
+	// Sample Float list example
+	floatList := collections.NewEmptyList[float64](10)
+	floatList.Extend(collections.NewListFromArray([]float64{2.4, 3.3, 4.2, 5.8}))
+	fmt.Println(fmt.Sprintf("Float64 Array List %v", floatList.ToArray()))
+	fmt.Println(fmt.Sprintf("Float64 Max %v", collections.Max[float64](floatList)))
+	fmt.Println(fmt.Sprintf("Float64 Min %v", collections.Min[float64](floatList)))
+
+	// Sample Struct list example
+	nesl := collections.NewEmptyList[ExampleStruct](5)
+	nesl.Add(ExampleStruct{Field1: 1, Field2: false})
+	nesl.Add(ExampleStruct{Field1: 1, Field2: false})
+	nesl.Add(ExampleStruct{Field1: 3, Field2: true})
+	nesl.Add(ExampleStruct{Field1: 3, Field2: false})
+	nesl.Add(ExampleStruct{Field1: 2, Field2: true})
+	fmt.Println(fmt.Sprintf("Struct Distinct list %v", nesl))
+	nesl.RemoveDuplicates()
+	fmt.Println(fmt.Sprintf("Struct Distinct list %v", nesl))
+	fmt.Println(fmt.Sprintf("Struct List where Field2 is false %v", nesl.Where(func(es ExampleStruct) bool {
+		return !es.Field2
+	})))
 }
 
-// IsEvenNumber ...
-func IsEvenNumber(val int) bool {
-	if val%2 == 0 {
-		return true
-	}
-	return false
+// An example struct that implements CollectionElement
+type ExampleStruct struct {
+	Field1 int
+	Field2 bool
+}
+
+func (obj ExampleStruct) String() string {
+	return fmt.Sprintf("{ field1: %d, field2: %t }", obj.Field1, obj.Field2)
 }
