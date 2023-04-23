@@ -20,9 +20,9 @@ type CollectionElement interface {
 type CollectionType int
 
 const (
-	LIST    CollectionType = 0
-	SET                    = 1
-	HASHMAP                = 2
+	TypeList    CollectionType = 0
+	TypeSet                    = 1
+	TypeHashmap                = 2
 )
 
 // Interface with comparable constraint (== & != operator supportable).
