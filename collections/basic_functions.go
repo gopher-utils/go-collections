@@ -1,11 +1,28 @@
 package collections
 
+// Returns the average of all elements present in the given collection.
+// This method supports only numerical types.
+func Avg[V Number](c Collection[V]) V {
+	switch c.Type() {
+	case TypeList:
+		size := V(c.Size())
+		if size == 0 {
+			return 0
+		}
+		return Sum(c) / size
+	}
+	panic("unknown collection type")
+}
+
 // Returns maximum element present in the given collection.
 // This method supports only numerical types.
 func Max[V Number](c Collection[V]) V {
 	switch c.Type() {
-	case LIST:
+	case TypeList:
 		l := c.(List[V])
+		if l.Size() == 0 {
+			return 0
+		}
 		items := l.ToArray()
 		max := items[0]
 		for i := 1; i < l.Size(); i++ {
@@ -14,8 +31,6 @@ func Max[V Number](c Collection[V]) V {
 			}
 		}
 		return max
-	case SET:
-		panic("not implemented")
 	}
 	panic("unknown collection type")
 }
@@ -24,8 +39,11 @@ func Max[V Number](c Collection[V]) V {
 // This method supports only numerical types.
 func Min[V Number](c Collection[V]) V {
 	switch c.Type() {
-	case LIST:
+	case TypeList:
 		l := c.(List[V])
+		if l.Size() == 0 {
+			return 0
+		}
 		items := l.ToArray()
 		min := items[0]
 		for i := 1; i < l.Size(); i++ {
@@ -34,8 +52,6 @@ func Min[V Number](c Collection[V]) V {
 			}
 		}
 		return min
-	case SET:
-		panic("not implemented")
 	}
 	panic("unknown collection type")
 }
@@ -44,28 +60,17 @@ func Min[V Number](c Collection[V]) V {
 // This method supports only numerical types.
 func Sum[V Number](c Collection[V]) V {
 	switch c.Type() {
-	case LIST:
+	case TypeList:
 		l := c.(List[V])
+		if l.Size() == 0 {
+			return 0
+		}
 		items := l.ToArray()
 		sum := items[0]
 		for i := 1; i < l.Size(); i++ {
 			sum += items[i]
 		}
 		return sum
-	case SET:
-		panic("not implemented")
-	}
-	panic("unknown collection type")
-}
-
-// Returns the average of all elements present in the given collection.
-// This method supports only numerical types.
-func Avg[V Number](c Collection[V]) V {
-	switch c.Type() {
-	case LIST:
-		return Sum(c) / V(c.Size())
-	case SET:
-		panic("not implemented")
 	}
 	panic("unknown collection type")
 }

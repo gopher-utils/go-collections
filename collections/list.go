@@ -12,15 +12,15 @@ type List[T CollectionElement] struct {
 }
 
 // Factory method to create an empty list with predefined capacity.
-func NewEmptyList[T CollectionElement](capacity int) List[T] {
-	l := List[T]{}
+func NewEmptyList[T CollectionElement](capacity int) *List[T] {
+	l := &List[T]{}
 	l.items = make([]T, 0, capacity)
 	return l
 }
 
 // Factory method to create a list from an array.
-func NewListFromArray[T CollectionElement](array []T) List[T] {
-	l := List[T]{}
+func NewListFromArray[T CollectionElement](array []T) *List[T] {
+	l := &List[T]{}
 	l.items = make([]T, 0, len(array))
 	l.items = append(l.items, array...)
 	return l
@@ -47,7 +47,7 @@ func (l *List[T]) CountOf(item T) (count int) {
 }
 
 // Returns a new list containing unique elements.
-func (l *List[T]) Distinct() List[T] {
+func (l *List[T]) Distinct() *List[T] {
 	filterMap := make(map[T]bool)
 	distinctList := NewEmptyList[T](len(l.items))
 
@@ -62,19 +62,19 @@ func (l *List[T]) Distinct() List[T] {
 }
 
 // Concatenate a list with another list.
-func (l *List[T]) Extend(l2 List[T]) {
+func (l *List[T]) Extend(l2 *List[T]) {
 	l.items = append(l.items, l2.items...)
 }
 
 // Returns list element for a valid index.
 // Returns error for an invalid index.
 func (l *List[T]) Get(index int) (item T, err error) {
-	if 0 < index && index < l.Size() {
+	if index >= 0 && index < l.Size() {
 		item = l.items[index]
 		return item, nil
 	}
 
-	err = errors.New("INDEX_NOT_FOUND")
+	err = errors.New("INDEX_OUT_OF_RANGE")
 	return item, err
 }
 
@@ -140,7 +140,7 @@ func (l *List[T]) Where(f func(T) bool) *List[T] {
 		}
 	}
 
-	return &resultList
+	return resultList
 }
 
 // Returns the number of elements in the list.
@@ -159,5 +159,5 @@ func (l List[T]) String() string {
 }
 
 func (_ List[T]) Type() CollectionType {
-	return LIST
+	return TypeList
 }
