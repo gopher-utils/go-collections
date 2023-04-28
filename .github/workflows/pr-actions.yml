@@ -1,0 +1,38 @@
+on: [pull_request]
+
+jobs:
+  build_and_test:
+    name: Builds the project and Runs Tests
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.20.0"
+
+      - name: Install dependencies
+        run: |
+          go get .
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...
+
+  run_lint:
+    name: Runs golang ci lint on the project
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/setup-go@v4
+        with:
+          go-version: "1.20.0"
+      
+      - uses: actions/checkout@v3
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.29

@@ -21,8 +21,8 @@ type CollectionType int
 
 const (
 	TypeList    CollectionType = 0
-	TypeSet                    = 1
-	TypeHashmap                = 2
+	TypeSet     CollectionType = 1
+	TypeHashmap CollectionType = 2
 )
 
 // Interface with comparable constraint (== & != operator supportable).
