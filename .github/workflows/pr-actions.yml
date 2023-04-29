@@ -29,10 +29,34 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: "1.20.0"
-      
+
       - uses: actions/checkout@v3
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
           version: v1.52.2
+
+  code_coverage:
+    name: Runs coverage on the project
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.20.0"
+
+      - name: Install dependencies
+        run: |
+          go get .
+
+      - name: Test with coverprofile
+        run: go test ./... -race -covermode=atomic -coverprofile=coverage.out
+
+      - name: Install basic calculator - bc
+        run: apt-get install bc -y
+
+      - name: Check coverage
+        run: sh ci/check_coverage.sh
