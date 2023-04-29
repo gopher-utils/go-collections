@@ -56,7 +56,7 @@ jobs:
         run: go test ./... -race -covermode=atomic -coverprofile=coverage.out
 
       - name: Install basic calculator - bc
-        run: apt-get install bc -y
+        run: sudo apt-get install bc -y
 
       - name: Check coverage
         run: sh ci/check_coverage.sh
