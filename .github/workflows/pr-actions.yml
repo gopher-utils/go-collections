@@ -14,7 +14,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          go get .
+          go get ./...
 
       - name: Build
         run: go build -v ./...
@@ -50,7 +50,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          go get .
+          go get ./...
 
       - name: Test with coverprofile
         run: go test ./... -race -covermode=atomic -coverprofile=coverage.out
