@@ -362,3 +362,98 @@ func TestListType(t *testing.T) {
 
 	assert.Equal(t, collections.TypeList, l.Type())
 }
+
+func TestListMapValidScenario(t *testing.T) {
+	studentMarks := []struct {
+		name  string
+		marks int
+	}{
+		{name: "Jack", marks: 100},
+		{name: "Jill", marks: 90},
+		{name: "Tom", marks: 75},
+		{name: "Peter", marks: 50},
+	}
+
+	l := collections.NewListFromArray(studentMarks)
+
+	getMarksCallbackFunc := func(elem interface{}, index int) interface{} {
+		return elem.(struct {
+			name  string
+			marks int
+		}).marks
+	}
+
+	lt := l.Map(getMarksCallbackFunc)
+
+	nl := collections.NewEmptyList[int](l.Size())
+	error := nl.CopyFrom(lt)
+
+	assert.Nil(t, error)
+}
+
+func TestListMapInvalidScenarioReturnsErrorWhenThereIsTypeMismatch(t *testing.T) {
+	studentMarks := []struct {
+		name  string
+		marks int
+	}{
+		{name: "Jack", marks: 100},
+		{name: "Jill", marks: 90},
+		{name: "Tom", marks: 75},
+		{name: "Peter", marks: 50},
+	}
+
+	l := collections.NewListFromArray(studentMarks)
+
+	getMarksCallbackFunc := func(elem interface{}, index int) interface{} {
+		return elem.(struct {
+			name  string
+			marks int
+		}).marks
+	}
+
+	lt := l.Map(getMarksCallbackFunc)
+
+	nl := collections.NewEmptyList[string](l.Size())
+	error := nl.CopyFrom(lt)
+
+	assert.Equal(
+		t,
+		error,
+		errors.New(
+			"Type assertion failed. The given transformation contains values that cannot be stored in the list",
+		),
+	)
+}
+
+func TestListReduce(t *testing.T) {
+	testCases := []struct {
+		inputList    *collections.List[int]
+		callbackFunc func(result int, current int) int
+		initialValue int
+		output       int
+	}{
+		{
+			inputList:    collections.NewListFromArray([]int{1, 2, 3, 4, 5}),
+			callbackFunc: func(result int, current int) int { return result + current },
+			initialValue: 0,
+			output:       15,
+		},
+		{
+			inputList:    collections.NewListFromArray([]int{1, 2, 3, 4, 5}),
+			callbackFunc: func(result int, current int) int { return result * current },
+			initialValue: 1,
+			output:       120,
+		},
+		{
+			inputList:    collections.NewListFromArray([]int{1, 2, 3, 4, 5}),
+			callbackFunc: func(result int, current int) int { return result + (current * current) },
+			initialValue: 0,
+			output:       55,
+		},
+	}
+
+	for _, tc := range testCases {
+		output := tc.inputList.Reduce(tc.callbackFunc, tc.initialValue)
+		assert.Equal(t, tc.output, output)
+	}
+}
