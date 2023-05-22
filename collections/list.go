@@ -106,8 +106,8 @@ func (l *List[T]) IndexOf(item T) int {
 
 // Use Map with a callback function to transform given list to a different one.
 // Map has a return type od ListTransformation and the returned value should be passed to the CopyFrom method to generate the required list.
-func (l *List[T]) Map(callback listMapFunction) ListTransformation {
-	result := make([]interface{}, l.Size())
+func (l *List[T]) Map(callback listMapFunction[T]) ListTransformation {
+	result := make([]any, l.Size())
 	for i, e := range l.items {
 		result[i] = callback(e, i)
 	}
@@ -198,11 +198,11 @@ func (_ List[T]) Type() CollectionType {
 
 // Temporary value store that stores results of Map method.
 type ListTransformation struct {
-	values []interface{}
+	values []any
 }
 
 // Type of callback function that needs to be passed to Map method.
-type listMapFunction func(T any, index int) interface{}
+type listMapFunction[T CollectionElement] func(element T, index int) any
 
 // Type of callback function that needs to be passed to Reduce method.
 type listReduceFunction[T CollectionElement] func(result T, item T) T

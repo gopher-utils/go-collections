@@ -376,11 +376,11 @@ func TestListMapValidScenario(t *testing.T) {
 
 	l := collections.NewListFromArray(studentMarks)
 
-	getMarksCallbackFunc := func(elem interface{}, index int) interface{} {
-		return elem.(struct {
-			name  string
-			marks int
-		}).marks
+	getMarksCallbackFunc := func(elem struct {
+		name  string
+		marks int
+	}, index int) any {
+		return elem.marks
 	}
 
 	lt := l.Map(getMarksCallbackFunc)
@@ -404,11 +404,11 @@ func TestListMapInvalidScenarioReturnsErrorWhenThereIsTypeMismatch(t *testing.T)
 
 	l := collections.NewListFromArray(studentMarks)
 
-	getMarksCallbackFunc := func(elem interface{}, index int) interface{} {
-		return elem.(struct {
-			name  string
-			marks int
-		}).marks
+	getMarksCallbackFunc := func(elem struct {
+		name  string
+		marks int
+	}, index int) any {
+		return elem.marks
 	}
 
 	lt := l.Map(getMarksCallbackFunc)
