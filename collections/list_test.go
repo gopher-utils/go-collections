@@ -363,7 +363,7 @@ func TestListType(t *testing.T) {
 	assert.Equal(t, collections.TypeList, l.Type())
 }
 
-func TestListMapValidScenario(t *testing.T) {
+func TestListMap(t *testing.T) {
 	studentMarks := []struct {
 		name  string
 		marks int
@@ -374,55 +374,20 @@ func TestListMapValidScenario(t *testing.T) {
 		{name: "Peter", marks: 50},
 	}
 
-	l := collections.NewListFromArray(studentMarks)
-
-	getMarksCallbackFunc := func(elem struct {
-		name  string
-		marks int
-	}, index int) any {
-		return elem.marks
-	}
-
-	lt := l.Map(getMarksCallbackFunc)
-
-	nl := collections.NewEmptyList[int](l.Size())
-	error := nl.CopyFrom(lt)
-
-	assert.Nil(t, error)
-}
-
-func TestListMapInvalidScenarioReturnsErrorWhenThereIsTypeMismatch(t *testing.T) {
-	studentMarks := []struct {
-		name  string
-		marks int
-	}{
-		{name: "Jack", marks: 100},
-		{name: "Jill", marks: 90},
-		{name: "Tom", marks: 75},
-		{name: "Peter", marks: 50},
-	}
+	expected := collections.NewListFromArray([]int{100, 90, 75, 50})
 
 	l := collections.NewListFromArray(studentMarks)
 
 	getMarksCallbackFunc := func(elem struct {
 		name  string
 		marks int
-	}, index int) any {
+	}, index int) int {
 		return elem.marks
 	}
 
-	lt := l.Map(getMarksCallbackFunc)
+	nl := collections.Map(l, getMarksCallbackFunc)
 
-	nl := collections.NewEmptyList[string](l.Size())
-	error := nl.CopyFrom(lt)
-
-	assert.Equal(
-		t,
-		error,
-		errors.New(
-			"Type assertion failed. The given transformation contains values that cannot be stored in the list",
-		),
-	)
+	assert.Equal(t, expected, nl)
 }
 
 func TestListReduce(t *testing.T) {
@@ -453,7 +418,7 @@ func TestListReduce(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		output := tc.inputList.Reduce(tc.callbackFunc, tc.initialValue)
+		output := collections.Reduce(tc.inputList, tc.callbackFunc, tc.initialValue)
 		assert.Equal(t, tc.output, output)
 	}
 }

@@ -36,21 +36,6 @@ func (l *List[T]) Contains(item T) bool {
 	return l.IndexOf(item) != -1
 }
 
-// Copies elements to the given List from ListTransformation that is returned by Map method.
-// Returns error if the value present in the transformation is not the same type as the List element type T.
-func (l *List[T]) CopyFrom(lt ListTransformation) error {
-	for _, e := range lt.values {
-		v, ok := e.(T)
-		if !ok {
-			return errors.New(
-				"Type assertion failed. The given transformation contains values that cannot be stored in the list",
-			)
-		}
-		l.Add(v)
-	}
-	return nil
-}
-
 // Returns number of occurences of given element in the list.
 func (l *List[T]) CountOf(item T) (count int) {
 	for _, e := range l.items {
@@ -102,25 +87,6 @@ func (l *List[T]) IndexOf(item T) int {
 		}
 	}
 	return -1
-}
-
-// Use Map with a callback function to transform given list to a different one.
-// Map has a return type od ListTransformation and the returned value should be passed to the CopyFrom method to generate the required list.
-func (l *List[T]) Map(callback listMapFunction[T]) ListTransformation {
-	result := make([]any, l.Size())
-	for i, e := range l.items {
-		result[i] = callback(e, i)
-	}
-	return ListTransformation{values: result}
-}
-
-// Use Reduce to reduce the given list elements to a single element of same type T based on a callback function.
-func (l *List[T]) Reduce(callback listReduceFunction[T], initialValue T) T {
-	result := initialValue
-	for _, e := range l.items {
-		result = callback(result, e)
-	}
-	return result
 }
 
 // Removes all occurences of the given element from the list.
@@ -196,13 +162,26 @@ func (_ List[T]) Type() CollectionType {
 	return TypeList
 }
 
-// Temporary value store that stores results of Map method.
-type ListTransformation struct {
-	values []any
+// Use Map method to transform a list of a given type to another type.
+func Map[T CollectionElement, E CollectionElement](l *List[T], callback listMapFunction[T, E]) *List[E] {
+	result := NewEmptyList[E](l.Size())
+	for i, e := range l.items {
+		result.Add(callback(e, i))
+	}
+	return result
+}
+
+// Use Reduce to reduce the given list elements to a single element of same type T based on a callback function.
+func Reduce[T CollectionElement](l *List[T], callback listReduceFunction[T], initialValue T) T {
+	result := initialValue
+	for _, e := range l.items {
+		result = callback(result, e)
+	}
+	return result
 }
 
 // Type of callback function that needs to be passed to Map method.
-type listMapFunction[T CollectionElement] func(element T, index int) any
+type listMapFunction[T CollectionElement, E CollectionElement] func(element T, index int) E
 
 // Type of callback function that needs to be passed to Reduce method.
 type listReduceFunction[T CollectionElement] func(result T, item T) T
