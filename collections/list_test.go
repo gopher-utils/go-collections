@@ -2,8 +2,9 @@ package collections_test
 
 import (
 	"errors"
-	"linq/collections"
 	"testing"
+
+	"github.com/gopinathr143/golang-linq/collections"
 
 	"github.com/stretchr/testify/assert"
 )
