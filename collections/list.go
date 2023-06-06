@@ -161,3 +161,27 @@ func (l List[T]) String() string {
 func (_ List[T]) Type() CollectionType {
 	return TypeList
 }
+
+// Use Map method to transform a list of a given type to another type.
+func Map[T CollectionElement, E CollectionElement](l *List[T], callback listMapFunction[T, E]) *List[E] {
+	result := NewEmptyList[E](l.Size())
+	for i, e := range l.items {
+		result.Add(callback(e, i))
+	}
+	return result
+}
+
+// Use Reduce to reduce the given list elements to a single element of same type T based on a callback function.
+func Reduce[T CollectionElement](l *List[T], callback listReduceFunction[T], initialValue T) T {
+	result := initialValue
+	for _, e := range l.items {
+		result = callback(result, e)
+	}
+	return result
+}
+
+// Type of callback function that needs to be passed to Map method.
+type listMapFunction[T CollectionElement, E CollectionElement] func(element T, index int) E
+
+// Type of callback function that needs to be passed to Reduce method.
+type listReduceFunction[T CollectionElement] func(result T, item T) T
