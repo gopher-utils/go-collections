@@ -1,4 +1,4 @@
-module linq
+module github.com/gopinathr143/golang-linq
 
 go 1.20
 
