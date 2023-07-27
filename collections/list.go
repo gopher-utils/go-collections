@@ -6,6 +6,11 @@ import (
 	"strings"
 )
 
+var (
+	ErrIndexOutOfRange = errors.New("linq: index out of range")
+	ErrItemNotFound    = errors.New("linq: item not found")
+)
+
 // Collection that stores homogenous elements in a fixed order.
 type List[T CollectionElement] struct {
 	items []T
@@ -84,7 +89,7 @@ func (l *List[T]) Get(index int) (item T, err error) {
 		return item, nil
 	}
 
-	err = errors.New("INDEX_OUT_OF_RANGE")
+	err = ErrIndexOutOfRange
 	return item, err
 }
 
@@ -104,7 +109,7 @@ func (l *List[T]) IndexOf(item T) int {
 func (l *List[T]) RemoveAll(item T) error {
 
 	if count := l.CountOf(item); count == 0 {
-		return errors.New("ITEM_NOT_FOUND")
+		return ErrItemNotFound
 	} else if count == 1 {
 		return l.RemoveFirst(item)
 	}
@@ -129,7 +134,7 @@ func (l *List[T]) RemoveDuplicates() {
 func (l *List[T]) RemoveFirst(item T) error {
 	var index int
 	if index = l.IndexOf(item); index == -1 {
-		return errors.New("ITEM_NOT_FOUND")
+		return ErrItemNotFound
 	}
 	l.items = append(l.items[:index], l.items[index+1:]...)
 	return nil

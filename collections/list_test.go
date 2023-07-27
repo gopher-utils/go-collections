@@ -1,7 +1,6 @@
 package collections_test
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/gopinathr143/golang-linq/collections"
@@ -190,7 +189,7 @@ func TestListGet(t *testing.T) {
 		output int
 		err    error
 	}{
-		{input: -1, output: 0, err: errors.New("INDEX_OUT_OF_RANGE")},
+		{input: -1, output: 0, err: collections.ErrIndexOutOfRange},
 		{input: 0, output: 0, err: nil},
 		{input: 1, output: 1, err: nil},
 		{input: 2, output: 2, err: nil},
@@ -202,7 +201,7 @@ func TestListGet(t *testing.T) {
 		{input: 8, output: 8, err: nil},
 		{input: 9, output: 9, err: nil},
 		{input: 10, output: 10, err: nil},
-		{input: 11, output: 0, err: errors.New("INDEX_OUT_OF_RANGE")},
+		{input: 11, output: 0, err: collections.ErrIndexOutOfRange},
 	}
 
 	for _, tc := range testCases {
@@ -244,7 +243,7 @@ func TestListRemoveAll(t *testing.T) {
 		{input: 3, err: nil},
 		{input: 4, err: nil},
 		{input: 5, err: nil},
-		{input: 1, err: errors.New("ITEM_NOT_FOUND")},
+		{input: 1, err: collections.ErrItemNotFound},
 	}
 
 	for _, tc := range testCases {
@@ -307,7 +306,7 @@ func TestListRemoveFirst(t *testing.T) {
 			inputList:    collections.NewListFromArray([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
 			inputElement: 10,
 			output:       collections.NewListFromArray([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
-			err:          errors.New("ITEM_NOT_FOUND"),
+			err:          collections.ErrItemNotFound,
 		},
 	}
 
