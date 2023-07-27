@@ -1,9 +1,11 @@
-package collections
+package list
 
 import (
 	"errors"
 	"fmt"
 	"strings"
+
+	"github.com/gopinathr143/golang-linq/collections"
 )
 
 var (
@@ -12,19 +14,19 @@ var (
 )
 
 // Collection that stores homogenous elements in a fixed order.
-type List[T CollectionElement] struct {
+type List[T collections.CollectionElement] struct {
 	items []T
 }
 
 // Factory method to create an empty list with predefined capacity.
-func NewEmptyList[T CollectionElement](capacity int) *List[T] {
+func New[T collections.CollectionElement](capacity int) *List[T] {
 	l := &List[T]{}
 	l.items = make([]T, 0, capacity)
 	return l
 }
 
 // Factory method to create a list from an array.
-func NewListFromArray[T CollectionElement](array []T) *List[T] {
+func From[T collections.CollectionElement](array []T) *List[T] {
 	l := &List[T]{}
 	l.items = make([]T, 0, len(array))
 	l.items = append(l.items, array...)
@@ -32,7 +34,7 @@ func NewListFromArray[T CollectionElement](array []T) *List[T] {
 }
 
 // Factory method to create a list with repeating values
-func NewRepeatedList[T CollectionElement](element T, times int) *List[T] {
+func Repeating[T collections.CollectionElement](element T, times int) *List[T] {
 	l := &List[T]{}
 	l.items = make([]T, 0, times)
 	for i := 0; i < times; i++ {
@@ -64,7 +66,7 @@ func (l *List[T]) CountOf(item T) (count int) {
 // Returns a new list containing unique elements.
 func (l *List[T]) Distinct() *List[T] {
 	filterMap := make(map[T]bool)
-	distinctList := NewEmptyList[T](len(l.items))
+	distinctList := New[T](len(l.items))
 
 	for _, e := range l.items {
 		if !filterMap[e] {
@@ -147,7 +149,7 @@ func (l *List[T]) ToArray() []T {
 
 // Returns a filtered list based on the provided boolean function f.
 func (l *List[T]) Where(f func(T) bool) *List[T] {
-	resultList := NewEmptyList[T](len(l.items))
+	resultList := New[T](len(l.items))
 
 	for _, e := range l.items {
 		if f(e) {
@@ -173,13 +175,13 @@ func (l List[T]) String() string {
 	return "[" + strings.Join(resultStrings, ",") + "]"
 }
 
-func (_ List[T]) Type() CollectionType {
-	return TypeList
+func (_ List[T]) Type() collections.CollectionType {
+	return collections.TypeList
 }
 
 // Use Map method to transform a list of a given type to another type.
-func Map[T CollectionElement, E CollectionElement](l *List[T], callback listMapFunction[T, E]) *List[E] {
-	result := NewEmptyList[E](l.Size())
+func Map[T collections.CollectionElement, E collections.CollectionElement](l *List[T], callback listMapFunction[T, E]) *List[E] {
+	result := New[E](l.Size())
 	for i, e := range l.items {
 		result.Add(callback(e, i))
 	}
@@ -187,7 +189,7 @@ func Map[T CollectionElement, E CollectionElement](l *List[T], callback listMapF
 }
 
 // Use Reduce to reduce the given list elements to a single element of same type T based on a callback function.
-func Reduce[T CollectionElement](l *List[T], callback listReduceFunction[T], initialValue T) T {
+func Reduce[T collections.CollectionElement](l *List[T], callback listReduceFunction[T], initialValue T) T {
 	result := initialValue
 	for _, e := range l.items {
 		result = callback(result, e)
@@ -196,7 +198,7 @@ func Reduce[T CollectionElement](l *List[T], callback listReduceFunction[T], ini
 }
 
 // Type of callback function that needs to be passed to Map method.
-type listMapFunction[T CollectionElement, E CollectionElement] func(element T, index int) E
+type listMapFunction[T collections.CollectionElement, E collections.CollectionElement] func(element T, index int) E
 
 // Type of callback function that needs to be passed to Reduce method.
-type listReduceFunction[T CollectionElement] func(result T, item T) T
+type listReduceFunction[T collections.CollectionElement] func(result T, item T) T
