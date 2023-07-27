@@ -38,6 +38,40 @@ func TestNewListFromArray(t *testing.T) {
 	}
 }
 
+func TestNewRepeatedList(t *testing.T) {
+	inputs := []struct {
+		element int
+		times   int
+		result  []int
+	}{
+		{
+			element: 0,
+			times:   0,
+			result:  []int{},
+		},
+		{
+			element: 0,
+			times:   4,
+			result:  []int{0, 0, 0, 0},
+		},
+		{
+			element: 4,
+			times:   0,
+			result:  []int{},
+		},
+		{
+			element: 1,
+			times:   2,
+			result:  []int{1, 1},
+		},
+	}
+
+	for _, input := range inputs {
+		l := collections.NewRepeatedList(input.element, input.times)
+		assert.Equal(t, input.result, l.ToArray())
+	}
+}
+
 func TestListAdd(t *testing.T) {
 	l := collections.NewEmptyList[int](10)
 	inputs := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}

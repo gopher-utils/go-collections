@@ -26,6 +26,16 @@ func NewListFromArray[T CollectionElement](array []T) *List[T] {
 	return l
 }
 
+// Factory method to create a list with repeating values
+func NewRepeatedList[T CollectionElement](element T, times int) *List[T] {
+	l := &List[T]{}
+	l.items = make([]T, 0, times)
+	for i := 0; i < times; i++ {
+		l.Add(element)
+	}
+	return l
+}
+
 // Add element to list.
 func (l *List[T]) Add(item T) {
 	l.items = append(l.items, item)
