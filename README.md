@@ -1,7 +1,8 @@
 # golang-linq
-
+<p>
 <img src="https://github.com/gopinathr143/golang-linq/actions/workflows/pr-actions.yml/badge.svg" alt="Build">
 <a href="https://github.com/gopinathr143/golang-linq/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+</p>
 
 Brings **L**anguage **In**tegrated **Q**uery features through basic collections into your go project.
 
