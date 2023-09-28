@@ -1,10 +1,15 @@
-package collections
+package math
+
+import (
+	"github.com/gopinathr143/golang-linq/collections"
+	"github.com/gopinathr143/golang-linq/collections/list"
+)
 
 // Returns the average of all elements present in the given collection.
 // This method supports only numerical types.
-func Avg[V Number](c Collection[V]) V {
+func Avg[V collections.Number](c collections.Collection[V]) V {
 	switch c.Type() {
-	case TypeList:
+	case collections.TypeList:
 		size := V(c.Size())
 		if size == 0 {
 			return 0
@@ -16,10 +21,10 @@ func Avg[V Number](c Collection[V]) V {
 
 // Returns maximum element present in the given collection.
 // This method supports only numerical types.
-func Max[V Number](c Collection[V]) V {
+func Max[V collections.Number](c collections.Collection[V]) V {
 	switch c.Type() {
-	case TypeList:
-		l := c.(List[V])
+	case collections.TypeList:
+		l := c.(list.List[V])
 		if l.Size() == 0 {
 			return 0
 		}
@@ -37,10 +42,10 @@ func Max[V Number](c Collection[V]) V {
 
 // Returns minimum element present in the given collection.
 // This method supports only numerical types.
-func Min[V Number](c Collection[V]) V {
+func Min[V collections.Number](c collections.Collection[V]) V {
 	switch c.Type() {
-	case TypeList:
-		l := c.(List[V])
+	case collections.TypeList:
+		l := c.(list.List[V])
 		if l.Size() == 0 {
 			return 0
 		}
@@ -58,10 +63,10 @@ func Min[V Number](c Collection[V]) V {
 
 // Returns the sum of all elements present in the given collection.
 // This method supports only numerical types.
-func Sum[V Number](c Collection[V]) V {
+func Sum[V collections.Number](c collections.Collection[V]) V {
 	switch c.Type() {
-	case TypeList:
-		l := c.(List[V])
+	case collections.TypeList:
+		l := c.(list.List[V])
 		if l.Size() == 0 {
 			return 0
 		}
