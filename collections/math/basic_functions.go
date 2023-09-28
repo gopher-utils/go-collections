@@ -14,7 +14,7 @@ func Avg[V collections.Number](c collections.Collection[V]) V {
 		if size == 0 {
 			return 0
 		}
-		return Sum(c) / size
+		return Sum[V](c) / size
 	}
 	panic("unknown collection type")
 }
