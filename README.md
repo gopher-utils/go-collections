@@ -1,7 +1,7 @@
-# golang-linq
+# go-collections
 <p>
-<img src="https://github.com/gopinathr143/golang-linq/actions/workflows/pr-actions.yml/badge.svg" alt="Build">
-<a href="https://github.com/gopinathr143/golang-linq/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+<img src="https://github.com/gopinathr143/go-collections/actions/workflows/pr-actions.yml/badge.svg" alt="Build">
+<a href="https://github.com/gopinathr143/go-collections/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
 </p>
 
 Brings **L**anguage **In**tegrated **Q**uery features through basic collections into your go project.
@@ -25,12 +25,12 @@ Brings **L**anguage **In**tegrated **Q**uery features through basic collections 
 ## Installation
 
 ```shell
-go get github.com/gopinathr143/golang-linq
+go get github.com/gopinathr143/go-collections
 ```
 
 ## Usage
 
-Below is an example of how you can use golang-linq in your project.
+Below is an example of how you can use go-collections in your project.
 
 ```go
 package main
@@ -38,7 +38,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/gopinathr143/golang-linq/collections/list"
+	"github.com/gopinathr143/go-collections/collections/list"
 )
 
 func main() {
@@ -63,7 +63,7 @@ func main() {
 
 ```
 
-Please check the [documentation](https://pkg.go.dev/github.com/gopinathr143/golang-linq) for more comprehensive usage.
+Please check the [documentation](https://pkg.go.dev/github.com/gopinathr143/go-collections) for more comprehensive usage.
 
 ## Contributing
 
