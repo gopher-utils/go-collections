@@ -1,4 +1,4 @@
-module github.com/gopinathr143/golang-linq
+module github.com/gopinathr143/go-collections
 
 go 1.20
 
