@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gopinathr143/golang-linq/collections"
+	"github.com/gopinathr143/go-collections"
 )
 
 var (

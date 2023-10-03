@@ -3,8 +3,8 @@ package math_test
 import (
 	"testing"
 
-	"github.com/gopinathr143/golang-linq/collections/list"
-	"github.com/gopinathr143/golang-linq/collections/math"
+	"github.com/gopinathr143/go-collections/list"
+	"github.com/gopinathr143/go-collections/math"
 
 	"github.com/stretchr/testify/assert"
 )
