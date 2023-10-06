@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gopinathr143/go-collections"
+	"github.com/gopher-utils/go-collections"
 )
 
 var (

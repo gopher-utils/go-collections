@@ -3,8 +3,8 @@ package list_test
 import (
 	"testing"
 
-	"github.com/gopinathr143/go-collections"
-	"github.com/gopinathr143/go-collections/list"
+	"github.com/gopher-utils/go-collections"
+	"github.com/gopher-utils/go-collections/list"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -1,4 +1,4 @@
-module github.com/gopinathr143/go-collections
+module github.com/gopher-utils/go-collections
 
 go 1.20
 
