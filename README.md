@@ -1,19 +1,10 @@
 # go-collections
 <p>
-<img src="https://github.com/gopinathr143/go-collections/actions/workflows/pr-actions.yml/badge.svg" alt="Build">
-<a href="https://github.com/gopinathr143/go-collections/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+<img src="https://github.com/gopher-utils/go-collections/actions/workflows/build.yml/badge.svg" alt="Build">
+<a href="https://github.com/gopher-utils/go-collections/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
 </p>
 
-Brings **L**anguage **In**tegrated **Q**uery features through basic collections into your go project.
-
-**Features**:
-
-<p>
-&nbsp;&nbsp;&nbsp;&nbsp;✅&nbsp; List datastructure of both primitive types and structs<br />
-&nbsp;&nbsp;&nbsp;&nbsp;❌&nbsp; Set datastructure of both primitive types and structs<br />
-&nbsp;&nbsp;&nbsp;&nbsp;❌&nbsp; Map datastructure of both primitive types and structs<br />
-&nbsp;&nbsp;&nbsp;&nbsp;❌&nbsp; Sorting and searching of collections<br />
-</p>
+Basic collections with Go using generics.
 
 ## Table of Contents
 
@@ -25,7 +16,7 @@ Brings **L**anguage **In**tegrated **Q**uery features through basic collections 
 ## Installation
 
 ```shell
-go get github.com/gopinathr143/go-collections
+go get github.com/gopher-utils/go-collections
 ```
 
 ## Usage
@@ -38,7 +29,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/gopinathr143/go-collections/collections/list"
+	"github.com/gopher-utils/go-collections/collections/list"
 )
 
 func main() {
@@ -63,7 +54,7 @@ func main() {
 
 ```
 
-Please check the [documentation](https://pkg.go.dev/github.com/gopinathr143/go-collections) for more comprehensive usage.
+Please check the [documentation](https://pkg.go.dev/github.com/gopher-utils/go-collections) for more comprehensive usage.
 
 ## Contributing
 
