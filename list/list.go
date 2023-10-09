@@ -197,6 +197,42 @@ func Reduce[T collections.CollectionElement](l *List[T], callback listReduceFunc
 	return result
 }
 
+// Define a generic Sort method for the List structure.
+func (l *List[T]) Sort(cmp func(elem1 T, elem2 T) int) {
+	// Call the recursive quicksort function.
+	quicksort(l.items, cmp, 0, len(l.items)-1)
+}
+
+// Quicksort algorithm implementation.
+func quicksort(items []T, cmp func(elem1 T, elem2 T) int, low int, high int) {
+	if low < high {
+		// Partition the array and get the pivot index.
+		pivotIndex := partition(items, cmp, low, high)
+
+		// Recursively sort the sub-arrays on both sides of the pivot.
+		quicksort(items, cmp, low, pivotIndex-1)
+		quicksort(items, cmp, pivotIndex+1, high)
+	}
+}
+
+// Partition function for quicksort.
+func partition(items []T, cmp func(elem1 T, elem2 T) int, low int, high int) int {
+	pivot := items[high] // Choose the rightmost element as the pivot.
+	i := low - 1
+
+	for j := low; j <= high-1; j++ {
+		// Compare elements and swap if necessary.
+		if cmp(items[j], pivot) < 0 {
+			i++
+			items[i], items[j] = items[j], items[i]
+		}
+	}
+
+	// Place the pivot element in its correct position.
+	items[i+1], items[high] = items[high], items[i+1]
+	return i + 1
+}
+
 // Type of callback function that needs to be passed to Map method.
 type listMapFunction[T collections.CollectionElement, E collections.CollectionElement] func(element T, index int) E
 
