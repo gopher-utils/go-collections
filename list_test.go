@@ -1,23 +1,22 @@
-package list_test
+package collections_test
 
 import (
 	"testing"
 
 	"github.com/gopher-utils/go-collections"
-	"github.com/gopher-utils/go-collections/list"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestNew(t *testing.T) {
-	intListPointer := list.New[int](1)
-	stringListPointer := list.New[string](1)
+func TestNewList(t *testing.T) {
+	intListPointer := collections.NewList[int](1)
+	stringListPointer := collections.NewList[string](1)
 
 	assert.NotNil(t, intListPointer)
 	assert.NotNil(t, stringListPointer)
 }
 
-func TestFrom(t *testing.T) {
+func TestToList(t *testing.T) {
 	inputs := []struct {
 		array []int
 	}{
@@ -33,12 +32,12 @@ func TestFrom(t *testing.T) {
 	}
 
 	for _, input := range inputs {
-		l := list.From(input.array)
+		l := collections.ToList(input.array)
 		assert.Equal(t, input.array, l.ToArray())
 	}
 }
 
-func TestRepeating(t *testing.T) {
+func TestRepeatingList(t *testing.T) {
 	inputs := []struct {
 		element int
 		times   int
@@ -67,13 +66,13 @@ func TestRepeating(t *testing.T) {
 	}
 
 	for _, input := range inputs {
-		l := list.Repeating(input.element, input.times)
+		l := collections.RepeatingList(input.element, input.times)
 		assert.Equal(t, input.result, l.ToArray())
 	}
 }
 
 func TestListAdd(t *testing.T) {
-	l := list.New[int](10)
+	l := collections.NewList[int](10)
 	inputs := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
 	for index, input := range inputs {
@@ -83,7 +82,7 @@ func TestListAdd(t *testing.T) {
 }
 
 func TestListContains(t *testing.T) {
-	l := list.From([]int{1, 2, 2, 4, 6, 7, 9, 10})
+	l := collections.ToList([]int{1, 2, 2, 4, 6, 7, 9, 10})
 	testCases := []struct {
 		input  int
 		output bool
@@ -107,7 +106,7 @@ func TestListContains(t *testing.T) {
 }
 
 func TestListCountOf(t *testing.T) {
-	l := list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
+	l := collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
 	testCases := []struct {
 		input  int
 		output int
@@ -127,24 +126,24 @@ func TestListCountOf(t *testing.T) {
 
 func TestListDistinct(t *testing.T) {
 	testCases := []struct {
-		input  *list.List[int]
-		output *list.List[int]
+		input  *collections.List[int]
+		output *collections.List[int]
 	}{
 		{
-			input:  list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
-			output: list.From([]int{1, 2, 3, 5, 4}),
+			input:  collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			output: collections.ToList([]int{1, 2, 3, 5, 4}),
 		},
 		{
-			input:  list.From([]int{1, 1, 2, 2, 3, 3, 4, 5, 4}),
-			output: list.From([]int{1, 2, 3, 4, 5}),
+			input:  collections.ToList([]int{1, 1, 2, 2, 3, 3, 4, 5, 4}),
+			output: collections.ToList([]int{1, 2, 3, 4, 5}),
 		},
 		{
-			input:  list.From([]int{1, 2, 3, 4, 5}),
-			output: list.From([]int{1, 2, 3, 4, 5}),
+			input:  collections.ToList([]int{1, 2, 3, 4, 5}),
+			output: collections.ToList([]int{1, 2, 3, 4, 5}),
 		},
 		{
-			input:  list.From([]int{5, 4, 3, 2, 1}),
-			output: list.From([]int{5, 4, 3, 2, 1}),
+			input:  collections.ToList([]int{5, 4, 3, 2, 1}),
+			output: collections.ToList([]int{5, 4, 3, 2, 1}),
 		},
 	}
 
@@ -156,24 +155,24 @@ func TestListDistinct(t *testing.T) {
 
 func TestListExtend(t *testing.T) {
 	testCases := []struct {
-		list1  *list.List[int]
-		list2  *list.List[int]
-		output *list.List[int]
+		list1  *collections.List[int]
+		list2  *collections.List[int]
+		output *collections.List[int]
 	}{
 		{
-			list1:  list.From([]int{1, 2, 2, 1, 3, 5, 5}),
-			list2:  list.From([]int{3, 3, 1, 4, 2, 1, 3, 3}),
-			output: list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			list1:  collections.ToList([]int{1, 2, 2, 1, 3, 5, 5}),
+			list2:  collections.ToList([]int{3, 3, 1, 4, 2, 1, 3, 3}),
+			output: collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
 		},
 		{
-			list1:  list.From([]int{1, 2, 3, 4, 5}),
-			list2:  list.From([]int{6, 7, 8, 9, 10}),
-			output: list.From([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}),
+			list1:  collections.ToList([]int{1, 2, 3, 4, 5}),
+			list2:  collections.ToList([]int{6, 7, 8, 9, 10}),
+			output: collections.ToList([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}),
 		},
 		{
-			list1:  list.From([]int{1, 1, 1, 1, 1}),
-			list2:  list.From([]int{0, 0}),
-			output: list.From([]int{1, 1, 1, 1, 1, 0, 0}),
+			list1:  collections.ToList([]int{1, 1, 1, 1, 1}),
+			list2:  collections.ToList([]int{0, 0}),
+			output: collections.ToList([]int{1, 1, 1, 1, 1, 0, 0}),
 		},
 	}
 
@@ -184,13 +183,13 @@ func TestListExtend(t *testing.T) {
 }
 
 func TestListGet(t *testing.T) {
-	l := list.From([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	l := collections.ToList([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
 	testCases := []struct {
 		input  int
 		output int
 		err    error
 	}{
-		{input: -1, output: 0, err: list.ErrIndexOutOfRange},
+		{input: -1, output: 0, err: collections.ErrIndexOutOfRange},
 		{input: 0, output: 0, err: nil},
 		{input: 1, output: 1, err: nil},
 		{input: 2, output: 2, err: nil},
@@ -202,7 +201,7 @@ func TestListGet(t *testing.T) {
 		{input: 8, output: 8, err: nil},
 		{input: 9, output: 9, err: nil},
 		{input: 10, output: 10, err: nil},
-		{input: 11, output: 0, err: list.ErrIndexOutOfRange},
+		{input: 11, output: 0, err: collections.ErrIndexOutOfRange},
 	}
 
 	for _, tc := range testCases {
@@ -213,7 +212,7 @@ func TestListGet(t *testing.T) {
 }
 
 func TestIndexOf(t *testing.T) {
-	l := list.From([]int{1, 2, 3, 4, 5})
+	l := collections.ToList([]int{1, 2, 3, 4, 5})
 	testCases := []struct {
 		input  int
 		output int
@@ -234,7 +233,7 @@ func TestIndexOf(t *testing.T) {
 }
 
 func TestListRemoveAll(t *testing.T) {
-	l := list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
+	l := collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
 	testCases := []struct {
 		input int
 		err   error
@@ -244,7 +243,7 @@ func TestListRemoveAll(t *testing.T) {
 		{input: 3, err: nil},
 		{input: 4, err: nil},
 		{input: 5, err: nil},
-		{input: 1, err: list.ErrItemNotFound},
+		{input: 1, err: collections.ErrItemNotFound},
 	}
 
 	for _, tc := range testCases {
@@ -257,24 +256,24 @@ func TestListRemoveAll(t *testing.T) {
 
 func TestListRemoveDuplicates(t *testing.T) {
 	testCases := []struct {
-		input  *list.List[int]
-		output *list.List[int]
+		input  *collections.List[int]
+		output *collections.List[int]
 	}{
 		{
-			input:  list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
-			output: list.From([]int{1, 2, 3, 5, 4}),
+			input:  collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			output: collections.ToList([]int{1, 2, 3, 5, 4}),
 		},
 		{
-			input:  list.From([]int{1, 1, 2, 2, 3, 3, 4, 5, 4}),
-			output: list.From([]int{1, 2, 3, 4, 5}),
+			input:  collections.ToList([]int{1, 1, 2, 2, 3, 3, 4, 5, 4}),
+			output: collections.ToList([]int{1, 2, 3, 4, 5}),
 		},
 		{
-			input:  list.From([]int{1, 2, 3, 4, 5}),
-			output: list.From([]int{1, 2, 3, 4, 5}),
+			input:  collections.ToList([]int{1, 2, 3, 4, 5}),
+			output: collections.ToList([]int{1, 2, 3, 4, 5}),
 		},
 		{
-			input:  list.From([]int{5, 4, 3, 2, 1}),
-			output: list.From([]int{5, 4, 3, 2, 1}),
+			input:  collections.ToList([]int{5, 4, 3, 2, 1}),
+			output: collections.ToList([]int{5, 4, 3, 2, 1}),
 		},
 	}
 
@@ -286,28 +285,28 @@ func TestListRemoveDuplicates(t *testing.T) {
 
 func TestListRemoveFirst(t *testing.T) {
 	testCases := []struct {
-		inputList    *list.List[int]
+		inputList    *collections.List[int]
 		inputElement int
-		output       *list.List[int]
+		output       *collections.List[int]
 		err          error
 	}{
 		{
-			inputList:    list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			inputList:    collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
 			inputElement: 1,
-			output:       list.From([]int{2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			output:       collections.ToList([]int{2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
 			err:          nil,
 		},
 		{
-			inputList:    list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			inputList:    collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
 			inputElement: 4,
-			output:       list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 2, 1, 3, 3}),
+			output:       collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 2, 1, 3, 3}),
 			err:          nil,
 		},
 		{
-			inputList:    list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			inputList:    collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
 			inputElement: 10,
-			output:       list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
-			err:          list.ErrItemNotFound,
+			output:       collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			err:          collections.ErrItemNotFound,
 		},
 	}
 
@@ -320,18 +319,18 @@ func TestListRemoveFirst(t *testing.T) {
 
 func TestListWhere(t *testing.T) {
 	testCases := []struct {
-		inputList  *list.List[int]
-		outputList *list.List[int]
+		inputList  *collections.List[int]
+		outputList *collections.List[int]
 		filterFunc func(int) bool
 	}{
 		{
-			inputList:  list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
-			outputList: list.From([]int{2, 2, 4, 2}),
+			inputList:  collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			outputList: collections.ToList([]int{2, 2, 4, 2}),
 			filterFunc: func(i int) bool { return i%2 == 0 },
 		},
 		{
-			inputList:  list.From([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
-			outputList: list.From([]int{1, 2, 2, 1, 1, 2, 1}),
+			inputList:  collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3}),
+			outputList: collections.ToList([]int{1, 2, 2, 1, 1, 2, 1}),
 			filterFunc: func(i int) bool { return i < 3 },
 		},
 	}
@@ -344,19 +343,19 @@ func TestListWhere(t *testing.T) {
 
 func TestListSize(t *testing.T) {
 	testCases := []struct {
-		inputList *list.List[int]
+		inputList *collections.List[int]
 		output    int
 	}{
 		{
-			inputList: list.From([]int{}),
+			inputList: collections.ToList([]int{}),
 			output:    0,
 		},
 		{
-			inputList: list.From([]int{1}),
+			inputList: collections.ToList([]int{1}),
 			output:    1,
 		},
 		{
-			inputList: list.From([]int{1, 2, 3, 4, 5}),
+			inputList: collections.ToList([]int{1, 2, 3, 4, 5}),
 			output:    5,
 		},
 	}
@@ -369,19 +368,19 @@ func TestListSize(t *testing.T) {
 
 func TestListString(t *testing.T) {
 	testCases := []struct {
-		inputList *list.List[int]
+		inputList *collections.List[int]
 		output    string
 	}{
 		{
-			inputList: list.From([]int{}),
+			inputList: collections.ToList([]int{}),
 			output:    "[]",
 		},
 		{
-			inputList: list.From([]int{1}),
+			inputList: collections.ToList([]int{1}),
 			output:    "[1]",
 		},
 		{
-			inputList: list.From([]int{1, 2, 3, 4, 5}),
+			inputList: collections.ToList([]int{1, 2, 3, 4, 5}),
 			output:    "[1,2,3,4,5]",
 		},
 	}
@@ -393,7 +392,7 @@ func TestListString(t *testing.T) {
 }
 
 func TestListType(t *testing.T) {
-	l := list.New[int](0)
+	l := collections.NewList[int](0)
 
 	assert.Equal(t, collections.TypeList, l.Type())
 }
@@ -409,9 +408,9 @@ func TestListMap(t *testing.T) {
 		{name: "Peter", marks: 50},
 	}
 
-	expected := list.From([]int{100, 90, 75, 50})
+	expected := collections.ToList([]int{100, 90, 75, 50})
 
-	l := list.From(studentMarks)
+	l := collections.ToList(studentMarks)
 
 	getMarksCallbackFunc := func(elem struct {
 		name  string
@@ -420,32 +419,32 @@ func TestListMap(t *testing.T) {
 		return elem.marks
 	}
 
-	nl := list.Map(l, getMarksCallbackFunc)
+	nl := collections.Map(l, getMarksCallbackFunc)
 
 	assert.Equal(t, expected, nl)
 }
 
 func TestListReduce(t *testing.T) {
 	testCases := []struct {
-		inputList    *list.List[int]
+		inputList    *collections.List[int]
 		callbackFunc func(result int, current int) int
 		initialValue int
 		output       int
 	}{
 		{
-			inputList:    list.From([]int{1, 2, 3, 4, 5}),
+			inputList:    collections.ToList([]int{1, 2, 3, 4, 5}),
 			callbackFunc: func(result int, current int) int { return result + current },
 			initialValue: 0,
 			output:       15,
 		},
 		{
-			inputList:    list.From([]int{1, 2, 3, 4, 5}),
+			inputList:    collections.ToList([]int{1, 2, 3, 4, 5}),
 			callbackFunc: func(result int, current int) int { return result * current },
 			initialValue: 1,
 			output:       120,
 		},
 		{
-			inputList:    list.From([]int{1, 2, 3, 4, 5}),
+			inputList:    collections.ToList([]int{1, 2, 3, 4, 5}),
 			callbackFunc: func(result int, current int) int { return result + (current * current) },
 			initialValue: 0,
 			output:       55,
@@ -453,7 +452,7 @@ func TestListReduce(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		output := list.Reduce(tc.inputList, tc.callbackFunc, tc.initialValue)
+		output := collections.Reduce(tc.inputList, tc.callbackFunc, tc.initialValue)
 		assert.Equal(t, tc.output, output)
 	}
 }
