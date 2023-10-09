@@ -457,3 +457,28 @@ func TestListReduce(t *testing.T) {
 		assert.Equal(t, tc.output, output)
 	}
 }
+
+func TestSortIntegers(t *testing.T) {
+	integers := list.From([]int{4, 1, 3, 2, 5})
+	integers.Sort(func(a, b int) int {
+		if a < b {
+			return -1
+		} else if a > b {
+			return 1
+		}
+		return 0
+	})
+	sortedArray := integers.ToArray()
+	expectedSortedArray := []int{1, 2, 3, 4, 5}
+	assert.Equal(t, expectedSortedArray, sortedArray)
+}
+
+func TestSortStrings(t *testing.T) {
+	strings := list.From([]string{"banana", "apple", "cherry", "date"})
+	strings.Sort(func(a, b string) int {
+		return a < b
+	})
+	sortedArray := strings.ToArray()
+	expectedSortedArray := []string{"apple", "banana", "cherry", "date"}
+	assert.Equal(t, expectedSortedArray, sortedArray)
+}
