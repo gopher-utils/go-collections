@@ -197,11 +197,16 @@ func Reduce[T collections.CollectionElement](l *List[T], callback listReduceFunc
 	return result
 }
 
-// Define a generic Sort method for the List structure.
+// Sort sorts the elements of the List using a provided comparison function.
+// The comparison function cmp should return a negative value if elem1 should
+// come before elem2, a positive value if elem1 should come after elem2, and
+// zero if elem1 and elem2 are considered equal in the desired order.
+// This method modifies the List in place.
 func (l *List[T]) Sort(cmp func(elem1 T, elem2 T) int) {
-	// Call the recursive quicksort function.
-	quicksort(l.items, cmp, 0, len(l.items)-1)
+    // Call the recursive quicksort function.
+    quicksort(l.items, cmp, 0, len(l.items)-1)
 }
+
 
 // Quicksort algorithm implementation.
 func quicksort(items []T, cmp func(elem1 T, elem2 T) int, low int, high int) {
