@@ -29,22 +29,22 @@ package main
 import (
 	"fmt"
 
-	"github.com/gopher-utils/go-collections/collections/list"
+	"github.com/gopher-utils/go-collections/collections"
 )
 
 func main() {
 	// Create a new empty list of integers with capacity 10
-	emptyList := list.New[int](10)
+	emptyList := collections.NewList[int](10)
 	// Insert a number
 	emptyList.Add(1)
 	fmt.Println(emptyList) // Prints [1]
 
 	// Create a list of integers with repeating ones of size 5
-	repeatingList := list.Repeating(1, 5)
+	repeatingList := collections.RepeatingList(1, 5)
 	fmt.Println(repeatingList) // Prints [1,1,1,1,1]
 
 	// Create a list from array
-	fromArrayList := list.From([]int{2, 3, 4})
+	fromArrayList := collections.ToList([]int{2, 3, 4})
 	fmt.Println(fromArrayList) // Prints [2,3,4]
 
 	// Concatenate two lists together

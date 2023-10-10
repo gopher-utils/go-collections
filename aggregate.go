@@ -1,15 +1,10 @@
-package math
-
-import (
-	"github.com/gopher-utils/go-collections"
-	"github.com/gopher-utils/go-collections/list"
-)
+package collections
 
 // Returns the average of all elements present in the given collection.
 // This method supports only numerical types.
-func Avg[V collections.Number](c collections.Collection[V]) V {
+func Avg[V Number](c Collection[V]) V {
 	switch c.Type() {
-	case collections.TypeList:
+	case TypeList:
 		size := V(c.Size())
 		if size == 0 {
 			return 0
@@ -21,10 +16,10 @@ func Avg[V collections.Number](c collections.Collection[V]) V {
 
 // Returns maximum element present in the given collection.
 // This method supports only numerical types.
-func Max[V collections.Number](c collections.Collection[V]) V {
+func Max[V Number](c Collection[V]) V {
 	switch c.Type() {
-	case collections.TypeList:
-		l := c.(list.List[V])
+	case TypeList:
+		l := c.(List[V])
 		if l.Size() == 0 {
 			return 0
 		}
@@ -42,10 +37,10 @@ func Max[V collections.Number](c collections.Collection[V]) V {
 
 // Returns minimum element present in the given collection.
 // This method supports only numerical types.
-func Min[V collections.Number](c collections.Collection[V]) V {
+func Min[V Number](c Collection[V]) V {
 	switch c.Type() {
-	case collections.TypeList:
-		l := c.(list.List[V])
+	case TypeList:
+		l := c.(List[V])
 		if l.Size() == 0 {
 			return 0
 		}
@@ -63,10 +58,10 @@ func Min[V collections.Number](c collections.Collection[V]) V {
 
 // Returns the sum of all elements present in the given collection.
 // This method supports only numerical types.
-func Sum[V collections.Number](c collections.Collection[V]) V {
+func Sum[V Number](c Collection[V]) V {
 	switch c.Type() {
-	case collections.TypeList:
-		l := c.(list.List[V])
+	case TypeList:
+		l := c.(List[V])
 		if l.Size() == 0 {
 			return 0
 		}
