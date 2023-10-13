@@ -1,10 +1,9 @@
 # go-collections
-<p>
-<img src="https://github.com/gopher-utils/go-collections/actions/workflows/build.yml/badge.svg" alt="Build">
-<a href="https://github.com/gopher-utils/go-collections/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
-[![codecov](https://codecov.io/gh/gopher-utils/go-collections/graph/badge.svg?token=Z6SU2GOHDI)](https://codecov.io/gh/gopher-utils/go-collections)
-</p>
 
+<p>
+<a href="https://github.com/gopher-utils/go-collections/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple" alt="License"></a>
+<a href="https://codecov.io/gh/gopher-utils/go-collections"><img src="https://codecov.io/gh/gopher-utils/go-collections/graph/badge.svg?token=Z6SU2GOHDI" alt="Codecov"></a>
+</p>
 
 Basic collections with Go using generics.
 
@@ -17,7 +16,7 @@ Basic collections with Go using generics.
 
 ## Installation
 
-```shell	
+```shell
 go get github.com/gopher-utils/go-collections
 ```
 
