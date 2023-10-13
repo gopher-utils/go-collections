@@ -78,6 +78,17 @@ func (s *Set[T]) Intersection(s2 *Set[T]) *Set[T] {
 	return intersection
 }
 
+// Returns a new set instance containing elements that exists in the first set, but not in the second.
+func (s *Set[T]) Difference(s2 *Set[T]) *Set[T] {
+	difference := NewSet[T]()
+	for key := range s.items {
+		if !s2.Contains(key) {
+			difference.Add(key)
+		}
+	}
+	return difference
+}
+
 // Removes all elements from the set.
 func (s *Set[T]) Clear() {
 	s.items = make(map[T]struct{})
