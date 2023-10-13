@@ -45,6 +45,19 @@ func (s *Set[T]) Extend(s2 *Set[T]) {
 	}
 }
 
+// Returns a new set instance as the Union of both sets.
+// This is the same as Extend, but without updating the rhs set.
+func (s *Set[T]) Union(s2 *Set[T]) *Set[T] {
+	union := NewSet[T]()
+	for key := range s.items {
+		union.Add(key)
+	}
+	for key := range s2.items {
+		union.Add(key)
+	}
+	return union
+}
+
 // Removes all elements from the set.
 func (s *Set[T]) Clear() {
 	s.items = make(map[T]struct{})
