@@ -58,6 +58,26 @@ func (s *Set[T]) Union(s2 *Set[T]) *Set[T] {
 	return union
 }
 
+// Returns a new set instance containing the elements that exists in both sets.
+func (s *Set[T]) Intersection(s2 *Set[T]) *Set[T] {
+	intersection := NewSet[T]()
+	if s.Size() < s2.Size() { // This ensures it will run through the smallest number of keys
+		for key := range s.items {
+			if s2.Contains(key) {
+				intersection.Add(key)
+			}
+		}
+		return intersection
+	}
+
+	for key := range s2.items {
+		if s.Contains(key) {
+			intersection.Add(key)
+		}
+	}
+	return intersection
+}
+
 // Removes all elements from the set.
 func (s *Set[T]) Clear() {
 	s.items = make(map[T]struct{})
