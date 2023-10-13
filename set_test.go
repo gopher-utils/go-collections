@@ -233,3 +233,106 @@ func TestSetType(t *testing.T) {
 
 	assert.Equal(t, collections.TypeSet, s.Type())
 }
+
+func TestSetUnion(t *testing.T) {
+	testCases := []struct {
+		set1   *collections.Set[int]
+		set2   *collections.Set[int]
+		output *collections.Set[int]
+	}{
+		{
+			set1:   collections.ToSet([]int{1, 2, 3}),
+			set2:   collections.ToSet([]int{4, 5, 6}),
+			output: collections.ToSet([]int{1, 2, 3, 4, 5, 6}),
+		},
+		{
+			set1:   collections.ToSet([]int{1, 2, 3}),
+			set2:   collections.ToSet([]int{3, 4, 5}),
+			output: collections.ToSet([]int{1, 2, 3, 4, 5}),
+		},
+		{
+			set1:   collections.ToSet([]int{}),
+			set2:   collections.ToSet([]int{3, 4, 5}),
+			output: collections.ToSet([]int{3, 4, 5}),
+		},
+		{
+			set1:   collections.ToSet([]int{1, 2}),
+			set2:   collections.ToSet([]int{}),
+			output: collections.ToSet([]int{1, 2}),
+		},
+	}
+
+	for _, tc := range testCases {
+		s := tc.set1.Union(tc.set2)
+		assert.Equal(t, tc.output, s)
+	}
+}
+
+// TODO
+func TestSetIntersection(t *testing.T) {
+	testCases := []struct {
+		set1   *collections.Set[int]
+		set2   *collections.Set[int]
+		output *collections.Set[int]
+	}{
+		{
+			set1:   collections.ToSet([]int{1, 2, 3}),
+			set2:   collections.ToSet([]int{4, 5, 6}),
+			output: collections.ToSet([]int{}),
+		},
+		{
+			set1:   collections.ToSet([]int{4, 1, 2, 3}),
+			set2:   collections.ToSet([]int{3, 4, 5}),
+			output: collections.ToSet([]int{3,4}),
+		},
+		{
+			set1:   collections.ToSet([]int{}),
+			set2:   collections.ToSet([]int{3, 4, 5}),
+			output: collections.ToSet([]int{}),
+		},
+		{
+			set1:   collections.ToSet([]int{1, 2}),
+			set2:   collections.ToSet([]int{}),
+			output: collections.ToSet([]int{}),
+		},
+	}
+
+	for _, tc := range testCases {
+		s := tc.set1.Intersection(tc.set2)
+		assert.Equal(t, tc.output, s)
+	}
+}
+
+func TestSetDifference(t *testing.T) {
+	testCases := []struct {
+		set1   *collections.Set[int]
+		set2   *collections.Set[int]
+		output *collections.Set[int]
+	}{
+		{
+			set1:   collections.ToSet([]int{1, 2, 3}),
+			set2:   collections.ToSet([]int{4, 5, 6}),
+			output: collections.ToSet([]int{1, 2, 3}),
+		},
+		{
+			set1:   collections.ToSet([]int{1, 2, 3}),
+			set2:   collections.ToSet([]int{3, 4, 5}),
+			output: collections.ToSet([]int{1, 2}),
+		},
+		{
+			set1:   collections.ToSet([]int{}),
+			set2:   collections.ToSet([]int{3, 4, 5}),
+			output: collections.ToSet([]int{}),
+		},
+		{
+			set1:   collections.ToSet([]int{1, 2}),
+			set2:   collections.ToSet([]int{}),
+			output: collections.ToSet([]int{1, 2}),
+		},
+	}
+
+	for _, tc := range testCases {
+        s := tc.set1.Difference(tc.set2)
+		assert.Equal(t, tc.output, s)
+	}
+}
