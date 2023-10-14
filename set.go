@@ -70,12 +70,12 @@ func (s *Set[T]) ToArray() []T {
 }
 
 // Returns the number of elements in the set.
-func (s Set[T]) Size() int {
+func (s *Set[T]) Size() int {
 	return len(s.items)
 }
 
 // Returns a string description of the set.
-func (s Set[T]) String() string {
+func (s *Set[T]) String() string {
 	resultStrings := make([]string, 0, s.Size())
 	for e := range s.items {
 		resultStrings = append(resultStrings, fmt.Sprint(e))
