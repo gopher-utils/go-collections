@@ -13,13 +13,9 @@ jobs:
         go: ["1.18", "1.19", "1.20"]
         os:
           [
-            "windows-2019",
-            "windows-2022",
-            "ubuntu-20.04",
-            "ubuntu-22.04",
-            "macos-11",
-            "macos-12",
-            "macos-13",
+            "windows-latest",
+            "ubuntu-latest",
+            "macos-latest",
           ]
     env:
       OS: ${{ matrix.os }}
