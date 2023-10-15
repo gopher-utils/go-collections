@@ -2,7 +2,6 @@ name: goreleaser-release
 
 on:
   push:
-    branches: ["main"]
     tags:
       - "v*"
 
