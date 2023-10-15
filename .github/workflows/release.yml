@@ -1,0 +1,38 @@
+name: goreleaser-release
+
+on:
+  push:
+    branches: ["main"]
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  goreleaser:
+    strategy:
+      matrix:
+        go: ["1.20"]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # See: https://goreleaser.com/ci/actions/
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GO_RELEASER_TOKEN }}
