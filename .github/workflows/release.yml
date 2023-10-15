@@ -2,7 +2,7 @@ name: goreleaser-release
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main","feat/automated-release"]
     tags:
       - "v*"
 
