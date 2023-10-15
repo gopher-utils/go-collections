@@ -27,6 +27,4 @@ go.work
 .vscode
 
 # This is the output of compiling `go build .`
-/dist
-
 dist/
