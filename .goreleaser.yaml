@@ -5,6 +5,9 @@ builds:
 # Used for library projects!
   - skip: true
 
+release:
+  draft: true
+
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
