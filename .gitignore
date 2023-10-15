@@ -22,3 +22,9 @@ go.work
 
 # asdf
 .tool-versions
+
+# VS code
+.vscode
+
+# This is the output of compiling `go build .`
+dist/
