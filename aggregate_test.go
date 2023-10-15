@@ -28,7 +28,7 @@ func TestAvg(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		output := collections.Avg[int](*tc.inputList)
+		output := collections.Avg[int](tc.inputList)
 		assert.Equal(t, tc.output, output)
 	}
 }
@@ -53,7 +53,7 @@ func TestMax(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		output := collections.Max[int](*tc.inputList)
+		output := collections.Max[int](tc.inputList)
 		assert.Equal(t, tc.output, output)
 	}
 }
@@ -82,7 +82,7 @@ func TestMin(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		output := collections.Min[int](*tc.inputList)
+		output := collections.Min[int](tc.inputList)
 		assert.Equal(t, tc.output, output)
 	}
 }
@@ -107,7 +107,7 @@ func TestSum(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		output := collections.Sum[int](*tc.inputList)
+		output := collections.Sum[int](tc.inputList)
 		assert.Equal(t, tc.output, output)
 	}
 }

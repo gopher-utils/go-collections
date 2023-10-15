@@ -19,7 +19,7 @@ func Avg[V Number](c Collection[V]) V {
 func Max[V Number](c Collection[V]) V {
 	switch c.Type() {
 	case TypeList:
-		l := c.(List[V])
+		l := c.(*List[V])
 		if l.Size() == 0 {
 			return 0
 		}
@@ -40,7 +40,7 @@ func Max[V Number](c Collection[V]) V {
 func Min[V Number](c Collection[V]) V {
 	switch c.Type() {
 	case TypeList:
-		l := c.(List[V])
+		l := c.(*List[V])
 		if l.Size() == 0 {
 			return 0
 		}
@@ -61,7 +61,7 @@ func Min[V Number](c Collection[V]) V {
 func Sum[V Number](c Collection[V]) V {
 	switch c.Type() {
 	case TypeList:
-		l := c.(List[V])
+		l := c.(*List[V])
 		if l.Size() == 0 {
 			return 0
 		}

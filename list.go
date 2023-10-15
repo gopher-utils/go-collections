@@ -159,12 +159,12 @@ func (l *List[T]) Where(f func(T) bool) *List[T] {
 }
 
 // Returns the number of elements in the list.
-func (l List[T]) Size() int {
+func (l *List[T]) Size() int {
 	return len(l.items)
 }
 
 // Returns a string description of the list.
-func (l List[T]) String() string {
+func (l *List[T]) String() string {
 	resultStrings := make([]string, 0, l.Size())
 	for _, e := range l.items {
 		resultStrings = append(resultStrings, fmt.Sprint(e))
