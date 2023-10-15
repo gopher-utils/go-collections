@@ -228,6 +228,31 @@ func TestSetString(t *testing.T) {
 	}
 }
 
+func TestSetToArray(t *testing.T) {
+	testCases := []struct {
+		inputSet *collections.Set[int]
+		output   []int
+	}{
+		{
+			inputSet: collections.ToSet([]int{}),
+			output:   []int{},
+		},
+		{
+			inputSet: collections.ToSet([]int{1}),
+			output:   []int{1},
+		},
+		{
+			inputSet: collections.ToSet([]int{1, 1, 1, 2}),
+			output:   []int{1, 2},
+		},
+	}
+
+	for _, tc := range testCases {
+		output := tc.inputSet.ToArray()
+		assert.Equal(t, len(tc.output), len(output))
+	}
+}
+
 func TestSetType(t *testing.T) {
 	s := collections.NewSet[int]()
 
@@ -268,7 +293,6 @@ func TestSetUnion(t *testing.T) {
 	}
 }
 
-// TODO
 func TestSetIntersection(t *testing.T) {
 	testCases := []struct {
 		set1   *collections.Set[int]
@@ -283,7 +307,7 @@ func TestSetIntersection(t *testing.T) {
 		{
 			set1:   collections.ToSet([]int{4, 1, 2, 3}),
 			set2:   collections.ToSet([]int{3, 4, 5}),
-			output: collections.ToSet([]int{3,4}),
+			output: collections.ToSet([]int{3, 4}),
 		},
 		{
 			set1:   collections.ToSet([]int{}),
@@ -291,9 +315,9 @@ func TestSetIntersection(t *testing.T) {
 			output: collections.ToSet([]int{}),
 		},
 		{
-			set1:   collections.ToSet([]int{1, 2}),
-			set2:   collections.ToSet([]int{}),
-			output: collections.ToSet([]int{}),
+			set1:   collections.ToSet([]int{1}),
+			set2:   collections.ToSet([]int{1, 2}),
+			output: collections.ToSet([]int{1}),
 		},
 	}
 
@@ -332,7 +356,7 @@ func TestSetDifference(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-        s := tc.set1.Difference(tc.set2)
+		s := tc.set1.Difference(tc.set2)
 		assert.Equal(t, tc.output, s)
 	}
 }

@@ -10,32 +10,36 @@ import (
 
 func TestAvg(t *testing.T) {
 	testCases := []struct {
-		inputList *collections.List[int]
-		output    int
+		inputCollection collections.Collection[int]
+		output          int
 	}{
 		{
-			inputList: collections.ToList([]int{}),
-			output:    0,
+			inputCollection: collections.ToList([]int{}),
+			output:          0,
 		},
 		{
-			inputList: collections.ToList([]int{1}),
-			output:    1,
+			inputCollection: collections.ToList([]int{1}),
+			output:          1,
 		},
 		{
-			inputList: collections.ToList([]int{1, 2, 3, 4, 5}),
-			output:    3,
+			inputCollection: collections.ToList([]int{1, 2, 3, 4, 5}),
+			output:          3,
+		},
+		{
+			inputCollection: collections.ToSet([]int{1, 1, 2, 2, 3}),
+			output:          2,
 		},
 	}
 
 	for _, tc := range testCases {
-		output := collections.Avg[int](tc.inputList)
+		output := collections.Avg[int](tc.inputCollection)
 		assert.Equal(t, tc.output, output)
 	}
 }
 
 func TestMax(t *testing.T) {
 	testCases := []struct {
-		inputList *collections.List[int]
+		inputList collections.Collection[int]
 		output    int
 	}{
 		{
@@ -50,6 +54,10 @@ func TestMax(t *testing.T) {
 			inputList: collections.ToList([]int{1, 2, 3, 4, 5}),
 			output:    5,
 		},
+		{
+			inputList: collections.ToSet([]int{1, 2, 3, 4, 5}),
+			output:    5,
+		},
 	}
 
 	for _, tc := range testCases {
@@ -60,7 +68,7 @@ func TestMax(t *testing.T) {
 
 func TestMin(t *testing.T) {
 	testCases := []struct {
-		inputList *collections.List[int]
+		inputList collections.Collection[int]
 		output    int
 	}{
 		{
@@ -79,6 +87,10 @@ func TestMin(t *testing.T) {
 			inputList: collections.ToList([]int{5, 4, 3, 2, 1, 0}),
 			output:    0,
 		},
+		{
+			inputList: collections.ToSet([]int{5, 4, 3, 2, 1, 0}),
+			output:    0,
+		},
 	}
 
 	for _, tc := range testCases {
@@ -89,7 +101,7 @@ func TestMin(t *testing.T) {
 
 func TestSum(t *testing.T) {
 	testCases := []struct {
-		inputList *collections.List[int]
+		inputList collections.Collection[int]
 		output    int
 	}{
 		{
@@ -102,6 +114,10 @@ func TestSum(t *testing.T) {
 		},
 		{
 			inputList: collections.ToList([]int{1, 2, 3, 4, 5}),
+			output:    15,
+		},
+		{
+			inputList: collections.ToSet([]int{1, 1, 2, 3, 4, 5}),
 			output:    15,
 		},
 	}
