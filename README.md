@@ -51,6 +51,21 @@ func main() {
 	// Concatenate two lists together
 	emptyList.Extend(fromArrayList)
 	fmt.Println(emptyList) // Prints [1,2,3,4]
+
+	// Sort a list of integers
+	newList := collections.ToList([]int{4, 3, 2})
+
+	// call sort with a comparision function that takes two values and returns an integer of 0,1 or -1
+	newList.Sort(func(a, b int) int {
+		if a < b {
+			return -1
+		} else if a > b {
+			return 1
+		}
+		return 0
+	})
+
+	fmt.Println(newList) // Prints [2,3,4]
 }
 
 ```
