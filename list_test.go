@@ -456,3 +456,64 @@ func TestListReduce(t *testing.T) {
 		assert.Equal(t, tc.output, output)
 	}
 }
+
+func TestSortIntegers(t *testing.T) {
+	testCases := []struct {
+		inputList *collections.List[int]
+		output    *collections.List[int]
+	}{
+		{
+			inputList: collections.ToList([]int{5, 4, 3, 2, 1}),
+			output:    collections.ToList([]int{1, 2, 3, 4, 5}),
+		},
+		{
+			inputList: collections.ToList([]int{21, 13, 45, 44, 21}),
+			output:    collections.ToList([]int{13, 21, 21, 44, 45}),
+		},
+		{
+			inputList: collections.ToList([]int{1}),
+			output:    collections.ToList([]int{1}),
+		},
+	}
+
+	for _, tc := range testCases {
+		tc.inputList.Sort(func(a, b int) int {
+			if a < b {
+				return -1
+			} else if a > b {
+				return 1
+			}
+			return 0
+		})
+		assert.Equal(t, tc.output, tc.inputList)
+	}
+}
+
+func TestSortStrings(t *testing.T) {
+	testCases := []struct {
+		inputList *collections.List[string]
+		output    *collections.List[string]
+	}{
+		{
+			inputList: collections.ToList([]string{"e", "d", "c", "b", "a"}),
+			output:    collections.ToList([]string{"a", "b", "c", "d", "e"}),
+		},
+		{
+			inputList: collections.ToList([]string{"banana", "apple", "cherry", "date"}),
+			output:    collections.ToList([]string{"apple", "banana", "cherry", "date"}),
+		},
+	}
+
+	for _, tc := range testCases {
+		tc.inputList.Sort(func(a, b string) int {
+			if a < b {
+				return -1
+			} else if a > b {
+				return 1
+			}
+			return 0
+		})
+		assert.Equal(t, tc.output, tc.inputList)
+	}
+
+}
