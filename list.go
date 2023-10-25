@@ -201,14 +201,12 @@ type listMapFunction[T CollectionElement, E CollectionElement] func(element T, i
 // Type of callback function that needs to be passed to Reduce method.
 type listReduceFunction[T CollectionElement] func(result T, item T) T
 
-// Use Sort to sort the elements of a List based on a comparison function using quicksort sorting algorithm. 
-func (l *List[T]) Sort(cmp func(elem1 T, elem2 T) int) *List[T] {
+// Use Sort to sort the elements of a List based on a comparison function using quicksort sorting algorithm.
+func (l *List[T]) Sort(cmp func(elem1 T, elem2 T) int) {
 	if l.Size() < 2 {
-		return l
+		return
 	}
-
 	quicksort(l.items, cmp, 0, len(l.items)-1)
-	return l
 }
 
 func quicksort[T CollectionElement](items []T, cmp func(elem1 T, elem2 T) int, low int, high int) {
