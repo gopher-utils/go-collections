@@ -200,3 +200,40 @@ type listMapFunction[T CollectionElement, E CollectionElement] func(element T, i
 
 // Type of callback function that needs to be passed to Reduce method.
 type listReduceFunction[T CollectionElement] func(result T, item T) T
+
+// Use Sort to sort the elements of a List based on a comparison function using quicksort sorting algorithm.
+func (l *List[T]) Sort(cmp func(elem1 T, elem2 T) int) {
+	if l.Size() < 2 {
+		return
+	}
+	quicksort(l.items, cmp, 0, len(l.items)-1)
+}
+
+func quicksort[T CollectionElement](items []T, cmp func(elem1 T, elem2 T) int, low int, high int) {
+	if low < high {
+		// Partition the array and get the pivot index.
+		pivotIndex := partition(items, cmp, low, high)
+
+		// Recursively sort the sub-arrays on both sides of the pivot.
+		quicksort(items, cmp, low, pivotIndex-1)
+		quicksort(items, cmp, pivotIndex+1, high)
+	}
+}
+
+func partition[T CollectionElement](items []T, cmp func(elem1 T, elem2 T) int, low int, high int) int {
+	// Choose the rightmost element as the pivot.
+	pivot := items[high]
+	i := low - 1
+
+	for j := low; j <= high-1; j++ {
+		// Compare elements and swap if necessary.
+		if cmp(items[j], pivot) < 0 {
+			i++
+			items[i], items[j] = items[j], items[i]
+		}
+	}
+
+	// Place the pivot element in correct position.
+	items[i+1], items[high] = items[high], items[i+1]
+	return i + 1
+}
