@@ -16,6 +16,12 @@ func TestNewList(t *testing.T) {
 	assert.NotNil(t, stringListPointer)
 }
 
+func BenchmarkNewList(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = collections.NewList[int](10)
+	}
+}
+
 func TestToList(t *testing.T) {
 	inputs := []struct {
 		array []int
@@ -34,6 +40,13 @@ func TestToList(t *testing.T) {
 	for _, input := range inputs {
 		l := collections.ToList(input.array)
 		assert.Equal(t, input.array, l.ToArray())
+	}
+}
+
+func BenchmarkToList(b *testing.B) {
+	example := []int{1, 2, 3}
+	for i := 0; i < b.N; i++ {
+		_ = collections.ToList(example)
 	}
 }
 
@@ -71,6 +84,12 @@ func TestRepeatingList(t *testing.T) {
 	}
 }
 
+func BenchmarkRepeatingList1_10(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = collections.RepeatingList(1, 10)
+	}
+}
+
 func TestListAdd(t *testing.T) {
 	l := collections.NewList[int](10)
 	inputs := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
@@ -78,6 +97,13 @@ func TestListAdd(t *testing.T) {
 	for index, input := range inputs {
 		l.Add(input)
 		assert.Equal(t, inputs[0:index+1], l.ToArray())
+	}
+}
+
+func BenchmarkListAdd(b *testing.B) {
+	l := collections.NewList[int](10)
+	for i := 0; i < b.N; i++ {
+		l.Add(1)
 	}
 }
 
@@ -105,6 +131,20 @@ func TestListContains(t *testing.T) {
 	}
 }
 
+func BenchmarkListContainsTrue(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 2, 4, 6, 7, 9, 10})
+	for i := 0; i < b.N; i++ {
+		l.Contains(6)
+	}
+}
+
+func BenchmarkListContainsFalse(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 2, 4, 6, 7, 9, 10})
+	for i := 0; i < b.N; i++ {
+		l.Contains(5)
+	}
+}
+
 func TestListCountOf(t *testing.T) {
 	l := collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
 	testCases := []struct {
@@ -121,6 +161,13 @@ func TestListCountOf(t *testing.T) {
 	for _, tc := range testCases {
 		actualOutput := l.CountOf(tc.input)
 		assert.Equal(t, tc.output, actualOutput)
+	}
+}
+
+func BenchmarkListCountOf(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
+	for i := 0; i < b.N; i++ {
+		l.CountOf(3)
 	}
 }
 
@@ -153,6 +200,13 @@ func TestListDistinct(t *testing.T) {
 	}
 }
 
+func BenchmarkListDistinct(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
+	for i := 0; i < b.N; i++ {
+		l.Distinct()
+	}
+}
+
 func TestListExtend(t *testing.T) {
 	testCases := []struct {
 		list1  *collections.List[int]
@@ -179,6 +233,14 @@ func TestListExtend(t *testing.T) {
 	for _, tc := range testCases {
 		tc.list1.Extend(tc.list2)
 		assert.Equal(t, tc.output, tc.list1)
+	}
+}
+
+func BenchmarkListExtend(b *testing.B) {
+	list1 := collections.ToList([]int{1, 1, 1, 1, 1})
+	list2 := collections.ToList([]int{0, 0})
+	for i := 0; i < b.N; i++ {
+		list1.Extend(list2)
 	}
 }
 
@@ -211,6 +273,20 @@ func TestListGet(t *testing.T) {
 	}
 }
 
+func BenchmarkListGetFound(b *testing.B) {
+	l := collections.ToList([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	for i := 0; i < b.N; i++ {
+		l.Get(5)
+	}
+}
+
+func BenchmarkListGetNotFound(b *testing.B) {
+	l := collections.ToList([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	for i := 0; i < b.N; i++ {
+		l.Get(-1)
+	}
+}
+
 func TestIndexOf(t *testing.T) {
 	l := collections.ToList([]int{1, 2, 3, 4, 5})
 	testCases := []struct {
@@ -229,6 +305,13 @@ func TestIndexOf(t *testing.T) {
 	for _, tc := range testCases {
 		output := l.IndexOf(tc.input)
 		assert.Equal(t, tc.output, output)
+	}
+}
+
+func BenchmarkListIndexOf(b *testing.B) {
+	l := collections.ToList([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	for i := 0; i < b.N; i++ {
+		l.IndexOf(5)
 	}
 }
 
@@ -251,6 +334,13 @@ func TestListRemoveAll(t *testing.T) {
 		removed := !l.Contains(tc.input)
 		assert.Equal(t, true, removed)
 		assert.Equal(t, tc.err, err)
+	}
+}
+
+func BenchmarkListRemoveAll(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
+	for i := 0; i < b.N; i++ {
+		l.RemoveAll(5)
 	}
 }
 
@@ -280,6 +370,13 @@ func TestListRemoveDuplicates(t *testing.T) {
 	for _, tc := range testCases {
 		tc.input.RemoveDuplicates()
 		assert.Equal(t, tc.input.ToArray(), tc.output.ToArray())
+	}
+}
+
+func BenchmarkListRemoveDuplicates(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 2, 1, 3, 5, 5, 3, 3, 1, 4, 2, 1, 3, 3})
+	for i := 0; i < b.N; i++ {
+		l.RemoveDuplicates()
 	}
 }
 

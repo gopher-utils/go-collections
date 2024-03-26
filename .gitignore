@@ -28,3 +28,6 @@ go.work
 
 # This is the output of compiling `go build .`
 dist/
+
+
+.idea
