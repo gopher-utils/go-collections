@@ -598,6 +598,14 @@ func TestListReduce(t *testing.T) {
 	}
 }
 
+func BenchmarkListReduce(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 3, 4, 5})
+	funcMap := func(e int, i int) int { return e * e }
+	for i := 0; i < b.N; i++ {
+		collections.Reduce(l, funcMap, 0)
+	}
+}
+
 func TestSortIntegers(t *testing.T) {
 	testCases := []struct {
 		inputList *collections.List[int]
@@ -630,6 +638,21 @@ func TestSortIntegers(t *testing.T) {
 	}
 }
 
+func BenchmarkListSortIntegers(b *testing.B) {
+	l := collections.ToList([]int{1, 2, 3, 4, 5})
+	funcSort := func(a, b int) int {
+		if a < b {
+			return -1
+		} else if a > b {
+			return 1
+		}
+		return 0
+	}
+	for i := 0; i < b.N; i++ {
+		l.Sort(funcSort)
+	}
+}
+
 func TestSortStrings(t *testing.T) {
 	testCases := []struct {
 		inputList *collections.List[string]
@@ -657,4 +680,19 @@ func TestSortStrings(t *testing.T) {
 		assert.Equal(t, tc.output, tc.inputList)
 	}
 
+}
+
+func BenchmarkListSortStrings(b *testing.B) {
+	l := collections.ToList([]string{"e", "d", "c", "b", "a"})
+	funcSort := func(a, b string) int {
+		if a < b {
+			return -1
+		} else if a > b {
+			return 1
+		}
+		return 0
+	}
+	for i := 0; i < b.N; i++ {
+		l.Sort(funcSort)
+	}
 }
